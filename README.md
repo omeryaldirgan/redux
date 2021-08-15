@@ -1,2 +1,2 @@
 # redux
-redux kullanarak geliştirdiğim küçük projeler
+redux kullanarak geliştirdiğim küçük,orta dereceli projeler
