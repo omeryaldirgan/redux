@@ -3,7 +3,6 @@ import {useSelector} from "react-redux";
 
 export default function TodoList(){
    const items=useSelector((state)=>state.todos.items)
-   console.log(items)
    return(
       <ul className="todo-list">
          {
