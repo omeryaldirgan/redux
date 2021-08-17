@@ -3,7 +3,8 @@ import {createSlice} from "@reduxjs/toolkit";
 export const todosSlice=createSlice({
    name:'todos',
    initialState:{
-      items:[{id:1,title:'Learn JavaScript',completed:true},{id:2,title:'Learn React',completed:false}]
+      items:[{id:1,title:'Learn JavaScript',completed:true},{id:2,title:'Learn React',completed:false}],
+      activeFilter:'all'
    },
    reducers:{
     addTodo:(state,action)=>{
@@ -20,9 +21,18 @@ export const todosSlice=createSlice({
       const id=action.payload;
       const filtered= state.items.filter((item)=>item.id!=id);
       state.items=filtered;
+   },
+
+   changeActiveFilter:(state,action)=>{
+     state.activeFilter=action.payload;
+   },
+
+   clearCompleted:(state)=>{
+      const completed= state.items.filter((item)=>item.completed===false);
+      state.items=completed;
    }
 
    }
 })
-export const {addTodo,toogle,destroy}=todosSlice.actions;
+export const {addTodo,toogle,destroy,changeActiveFilter,clearCompleted}=todosSlice.actions;
 export default todosSlice.reducer;
