@@ -2,7 +2,7 @@ import  React from 'react'
 import {useSelector,useDispatch} from "react-redux";
 import {changeActiveFilter,clearCompleted} from "../redux/todos/todosSlice";
 
-export default function Footer(){
+function Footer(){
    const items=useSelector((state)=>state.todos.items);
    const activeFilter=useSelector(state => state.todos.activeFilter);
    const itemLeft=items.filter(item=>!item.completed).length;
@@ -15,7 +15,6 @@ export default function Footer(){
 			<strong>{itemLeft}{' '}</strong>
 			 item{itemLeft>1&&'s'} left
 		</span>
-
          <ul className="filters">
             <li>
                <a href={'/#'} className={activeFilter=='all'?'selected':''} onClick={()=>dispatch(changeActiveFilter('all'))}>All</a>
@@ -33,3 +32,5 @@ export default function Footer(){
       </footer>
    )
 }
+
+export default React.memo(Footer);
