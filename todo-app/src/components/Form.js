@@ -6,10 +6,12 @@ import {nanoid} from "@reduxjs/toolkit";
 export default function Form(){
    const [value,setValue]=useState('')
    const dispatch=useDispatch();
+
    const handleSubmit=(e)=>{
       if (!value)return;
       e.preventDefault();
-      dispatch(addTodo({id:nanoid(),title:value,completed:false}))
+      dispatch(addTodo({title:value}))
+      setValue('')
    };
 
    return(

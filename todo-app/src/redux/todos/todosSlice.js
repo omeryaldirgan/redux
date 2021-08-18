@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, nanoid} from "@reduxjs/toolkit";
 
 export const todosSlice=createSlice({
    name:'todos',
@@ -7,8 +7,20 @@ export const todosSlice=createSlice({
       activeFilter:'all'
    },
    reducers:{
-    addTodo:(state,action)=>{
-       state.items.push(action.payload)
+    addTodo:{
+       reducer:(state,action)=>{
+          state.items.push(action.payload)
+       },
+       prepare:({title})=>{
+          console.log(title);
+          return{
+             payload:{
+                   id:nanoid(),
+                   completed:false,
+                   title
+             }
+          }
+       }
     },
 
    toogle:(state,action)=>{
@@ -35,7 +47,9 @@ export const todosSlice=createSlice({
    }
 })
 
+
 export const todoList=(state)=>state.todos.items;
+
 //todo list componentinde ki stateleri buraya taşıdım.
 export const selectFilteredTodos=(state)=>{
    if (state.todos.activeFilter=='all') {
@@ -49,5 +63,6 @@ export const selectFilteredTodos=(state)=>{
 
 
 }
+
 export const {addTodo,toogle,destroy,changeActiveFilter,clearCompleted}=todosSlice.actions;
 export default todosSlice.reducer;
