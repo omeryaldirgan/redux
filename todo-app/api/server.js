@@ -1,9 +1,12 @@
-const express=require('express');
-const dotenv=require('dotenv');
-const colors=require('colors');
-const cors=require('cors');
-const {json}=require('body-parser');
-const {nanoid}=require('nanoid')
+import express from 'express';
+import dotenv from 'dotenv'
+import colors from 'colors'
+import cors from 'cors'
+import pkg from 'body-parser'
+import {nanoid} from 'nanoid'
+
+const {json} = pkg;
+
 
 dotenv.config({path:'./config.env'})
 
@@ -54,4 +57,4 @@ app.delete('/todos/:id',(req, res) => {
 
 const PORT=7000
 
-app.listen(PORT,console.log(`Server running on port ${PORT}`.green.bold))
+app.listen(PORT,console.log(`Server running on port ${PORT}`))
