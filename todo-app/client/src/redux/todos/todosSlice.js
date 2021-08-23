@@ -30,6 +30,7 @@ export const todosSlice=createSlice({
        }
     },
 
+
    toogle:(state,action)=>{
     const{id}=action.payload;
     const item= state.items.find((item)=>item.id==id);
