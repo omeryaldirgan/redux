@@ -29,7 +29,7 @@ export default function TodoList(){
       return <Error message={error}/>
    }
 
-
+  console.log('filtered',filtered);
    return(
       <ul className="todo-list">
          {

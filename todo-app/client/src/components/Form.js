@@ -1,16 +1,16 @@
 import  React,{useState}from 'react'
 import {useDispatch} from "react-redux";
-import {addTodo} from "../redux/todos/todosSlice";
+import {addTodoAsync} from "../redux/todos/todosSlice";
 import {nanoid} from "@reduxjs/toolkit";
 
 export default function Form(){
    const [value,setValue]=useState('')
    const dispatch=useDispatch();
 
-   const handleSubmit=(e)=>{
+   const handleSubmit=async (e)=>{
       if (!value)return;
       e.preventDefault();
-      dispatch(addTodo({title:value}))
+      await dispatch(addTodoAsync({title:value}))
       setValue('')
    };
 

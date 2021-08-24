@@ -26,10 +26,12 @@ app.get('/todos',(req,res)=>res.send(todos))
 
 
 app.post('/todos',(req, res) => {
-   const todo={id:nanoid(),title:res.body.title,completed:false}
+   console.log('console.res.body.title', req.body.title)
+   const todo={id:nanoid(),title:req.body.title,completed:false}
    todos.push(todo);
    return res.send(todo)
 })
+
 
 app.patch('/todos/:id',(req, res) => {
    const id=req.params.id;

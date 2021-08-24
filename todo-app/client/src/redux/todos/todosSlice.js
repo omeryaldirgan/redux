@@ -1,9 +1,17 @@
-import {createSlice, nanoid,createAsyncThunk} from "@reduxjs/toolkit";
+import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const getTodoAsync=createAsyncThunk('todos/getTodoAsync',async ()=>{
    const res=await fetch('http://localhost:7000/todos');
    return res.json()
 })
+
+export const addTodoAsync=createAsyncThunk('todos/addTodoAsync',async (data)=>{
+   const res=await axios.post('http://localhost:7000/todos',data);
+   console.log('data',data)
+   return res.data;
+})
+
 
 export const todosSlice=createSlice({
    name:'todos',
@@ -14,56 +22,62 @@ export const todosSlice=createSlice({
       error:null
    },
    reducers:{
-    addTodo:{
-       reducer:(state,action)=>{
-          state.items.push(action.payload)
-       },
-       prepare:({title})=>{
-          console.log(title);
-          return{
-             payload:{
-                   id:nanoid(),
-                   completed:false,
-                   title
-             }
-          }
-       }
-    },
+      /*addTodo:{
+         reducer:(state,action)=>{
+            state.items.push(action.payload)
+         },
+         prepare:({title})=>{
+            console.log(title);
+            return{
+               payload:{
+                     id:nanoid(),
+                     completed:false,
+                     title
+               }
+            }
+         }
+      },*/
 
 
-   toogle:(state,action)=>{
-    const{id}=action.payload;
-    const item= state.items.find((item)=>item.id==id);
-    item.completed=!item.completed;
-   },
+      toogle:(state,action)=>{
+         const{id}=action.payload;
+         const item= state.items.find((item)=>item.id==id);
+         item.completed=!item.completed;
+      },
 
-   destroy:(state,action)=>{
-      const id=action.payload;
-      const filtered= state.items.filter((item)=>item.id!=id);
-      state.items=filtered;
-   },
+      destroy:(state,action)=>{
+         const id=action.payload;
+         const filtered= state.items.filter((item)=>item.id!=id);
+         state.items=filtered;
+      },
 
-   changeActiveFilter:(state,action)=>{
-     state.activeFilter=action.payload;
-   },
+      changeActiveFilter:(state,action)=>{
+         state.activeFilter=action.payload;
+      },
 
-   clearCompleted:(state)=>{
-      const completed= state.items.filter((item)=>item.completed===false);
-      state.items=completed;
-   }
+      clearCompleted:(state)=>{
+         const completed= state.items.filter((item)=>item.completed===false);
+         state.items=completed;
+      }
 
    },
    extraReducers:{
-     [getTodoAsync.pending]:(state,action)=>{
-        state.isLoading=true
-     },
+      //GET TODO
+      [getTodoAsync.pending]:(state,action)=>{
+         state.isLoading=true
+      },
       [getTodoAsync.fulfilled]:(state,action)=>{
          state.items=action.payload;
+         console.log('action.payload',action.payload)
          state.isLoading=false;
       },
       [getTodoAsync.rejected]:(state,action)=>{
          state.isLoading=false;
          state.error=action.error.message;
+      },
+      //ADD TODO
+      [addTodoAsync.fulfilled]:(state,action)=>{
+         state.items.push(action.payload);
       }
    }
 })
@@ -74,7 +88,7 @@ export const todoList=(state)=>state.todos.items;
 //todo list componentinde ki stateleri buraya taşıdım.
 export const selectFilteredTodos=(state)=>{
    if (state.todos.activeFilter=='all') {
-     return state.todos.items;
+      return state.todos.items;
    }
 
    return state.todos.items.filter((todo)=>state.todos.activeFilter==='active'
@@ -84,6 +98,6 @@ export const selectFilteredTodos=(state)=>{
 
 
 }
-
-export const {addTodo,toogle,destroy,changeActiveFilter,clearCompleted}=todosSlice.actions;
+//export const {addTodo,toogle,destroy,changeActiveFilter,clearCompleted}=todosSlice.actions;
+export const {toogle,destroy,changeActiveFilter,clearCompleted}=todosSlice.actions;
 export default todosSlice.reducer;
