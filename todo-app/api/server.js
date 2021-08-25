@@ -37,7 +37,6 @@ app.patch('/todos/:id',(req, res) => {
    const id=req.params.id;
    const index=todos.findIndex((todo)=>todo.id==id)
    const completed=Boolean(req.body.completed);
-
    if (index>-1) {
      todos[index].completed=completed
    }
